@@ -21,7 +21,9 @@ public:
     void addItem(QString lable, QByteArray data);//添加到列表
     StyleWidgetShadow *swshadow = nullptr;//列表阴影
 
+
 public slots:
+    QString getDiskPath();
     void setPushKey(QListWidgetItem *item);//将值传递到按键
 
 signals:

@@ -22,9 +22,10 @@ void MainWindow::myStyle()
     connect(page1,&Page1::makeStart,this,&MainWindow::makeStart);
 
     page2 = new Page2;
-    connect(this,&MainWindow::setMakeStart,page2,&Page2::makeStart);
-    connect(page2,&Page2::makeFinish,this,&MainWindow::returnMain);
+    connect(page1,&Page1::makeStart,page2,&Page2::startMaking);
 
+    connect(page2,&Page2::makeFinish,this,&MainWindow::makeFinish);
+    connect(page2,&Page2::returnMain,this,&MainWindow::returnMain);
     QHBoxLayout *hblayout=new QHBoxLayout(styleWidget->body);
     hblayout->setMargin(0);//控件间距
     hblayout->setSpacing(0);//控件间距
@@ -67,7 +68,7 @@ void MainWindow::makeStart()
     stackedWidget->setCurrentIndex(changePage());
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
     pointLable2->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
-
+    qDebug()<<"start";
     emit setMakeStart();
 }
 
@@ -82,14 +83,17 @@ int MainWindow::changePage()
 
 void MainWindow::makeFinish()
 {
-    stackedWidget->setCurrentIndex(changePage());
-    pointLable2->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
-    pointLable3->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
+    qDebug()<<"finish";
+//    stackedWidget->setCurrentIndex(changePage());
+    pointLable3->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
+    pointLable2->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
 }
 
 void MainWindow::returnMain()
 {
+    qDebug()<<"return main";
     stackedWidget->setCurrentIndex(changePage());
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
     pointLable3->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
+    qDebug()<<"back to mainwindow";
 }

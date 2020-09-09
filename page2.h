@@ -6,20 +6,23 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QMovie>
+#include <QProcess>
 #include <QBoxLayout>
+#include <QString>
+#include <QFileInfo>
 class Page2 : public QWidget
 {
     Q_OBJECT
 public:
     explicit Page2(QWidget *parent = nullptr);
-
+    qint64 getFileSize(QString filePath);//获取文件大小，返回单位mb
 signals:
     void makeFinish();
     void returnMain();
 
 public slots:
-    void makeStart();
-
+    void startMaking(QString key,QString sourcePath,QString targetPath); //接收page1传来的制作参数
+    void finishEvent();
 private:
     void playLoadingGif();
     void playFinishGif();
@@ -30,6 +33,9 @@ private:
     QLabel *lableNum=nullptr;
     QPushButton *returnPushButton=nullptr;
     int frameCount=0;
+    QProcess *command_dd;
+    void readBashStandardErrorInfo();
+    qint64 sourceFileSize = 0;
 };
 
 #endif // PAGE2_H

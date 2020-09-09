@@ -55,7 +55,7 @@ Page2::Page2(QWidget *parent) : QWidget(parent)
 
 void Page2::playLoadingGif()
 {
-    lableNum->setText("10%");
+    lableNum->setText("0%");
     lableNum->show();
     returnPushButton->setEnabled(false);
     returnPushButton->setText(tr("正在制作中"));
@@ -80,9 +80,58 @@ void Page2::playFinishGif()
 
 }
 
-void Page2::makeStart()
+void Page2::startMaking(QString key,QString sourcePath,QString targetPath)
 {
     playLoadingGif();
+    qDebug()<<"source file size:"<<getFileSize(sourcePath);
+    sourceFileSize = getFileSize(sourcePath);
+    command_dd = new QProcess();
+    connect(command_dd,&QProcess::readyReadStandardError,this,&Page2::readBashStandardErrorInfo);
+    command_dd->start("bash");
+    command_dd->waitForStarted();
+    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
+//    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+//    QString ddshell = "echo p][p12 | sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+    qDebug()<<"ddshell is: "<<ddshell;
+    command_dd->write(ddshell.toLocal8Bit() + '\n');
 
     //playFinishGif();
+}
+qint64 Page2::getFileSize(QString filePath)
+{
+    QFileInfo info(filePath);
+    return info.size()/1048576;
+}
+void Page2::readBashStandardErrorInfo()
+{
+    QByteArray cmdout = command_dd->readAllStandardError();
+    if(!cmdout.isEmpty() && cmdout != "\r" && cmdout != "\n"){
+        QString str = cmdout;
+        str = str.replace(" ","");
+        qDebug()<<"Str value:"<<str;
+//        qDebug()<<str.contains("[sudo]");
+        if(str =="" || str.contains("[sudo]"))
+        {
+            return;
+        }
+        str = str.replace("\r","");
+        QStringList bytes2 =  str.split("bytes");
+
+         QString size_progress = bytes2.first();
+         bool ok = false;
+         qulonglong progress_num = size_progress.toDouble(&ok)/1048576;
+         int mission_percent = progress_num*100/sourceFileSize;
+//         qDebug()<<"pro:"<<progress_num<<"progress："<<size_progress.toDouble();
+         lableNum->setText(QString::number(mission_percent)+ "%");
+         if(bytes2.count() == 1 || !ok){
+             finishEvent();
+         }
+
+    }
+}
+void Page2::finishEvent()
+{
+//    qDebug()<<"finish";
+    playFinishGif();
+    emit makeFinish();
 }

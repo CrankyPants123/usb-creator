@@ -91,3 +91,7 @@ void StyleComboBox::setPushKey(QListWidgetItem *item)
     deleteShadow();
 }
 
+QString StyleComboBox::getDiskPath()
+{
+    return text->statusTip();
+}

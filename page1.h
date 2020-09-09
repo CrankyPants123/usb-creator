@@ -31,12 +31,13 @@ class Page1 : public QWidget
     Q_OBJECT
 public:
     explicit Page1( StyleWidgetAttribute);
-
+//
 signals:
-    void makeStart();
+    void makeStart(QString key,QString sourcePath,QString targetPath);
 
 public slots:
     void allClose();
+    void onDialogYesClick();
 
 private:
     bool event(QEvent *event);
@@ -57,6 +58,7 @@ private:
     QPushButton *findIso = nullptr;//浏览文件按钮
     QPushButton *creatStart = nullptr;//开始制作
     StyleWidget *styleDialog = nullptr;//提醒对话框
+    QLineEdit *dialogKey= nullptr;//
 
     bool paintOnce=false;//只绘制一次
     StyleWidgetAttribute swa;//属性

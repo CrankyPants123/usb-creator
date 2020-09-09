@@ -23,16 +23,13 @@ void Page1::initControlQss()
     tabUdisk->setFixedHeight(20);
     tabIso->setObjectName("tabLable");
     tabUdisk->setObjectName("tabLable");
-
     comboUdisk=new StyleComboBox(swa);
-
     warnningIcon=new QLabel;
     warnningIcon->setStyleSheet("border-image:url(:/data/warning.png);border:0px;");
     warnningIcon->setFixedSize(24,24);
     warnningText=new QLabel;
     warnningText->setText(tr("制作启动盘的U盘将被格式化，请先备份好重要文件！"));
     warnningText->setStyleSheet("color:rgba(96, 98, 102, 1);font-size:14px;");
-
 
     urlIso=new QLineEdit;
     urlIso->setEnabled(false);
@@ -44,7 +41,6 @@ void Page1::initControlQss()
     connect(findIso,&QPushButton::clicked,this,[=]{
         urlIso->setText( QFileDialog::getOpenFileName(0,tr("选择镜像文件"),QDir::homePath(),"ISO(*.iso)"));
     });
-
     creatStart=new QPushButton(this);
     creatStart->setFixedSize(200,30);
     creatStart->setText(tr("开始制作"));
@@ -113,7 +109,7 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     dialogYes->setFixedSize(64,30);
     dialogYes->setText(tr("授权"));
     dialogYes->setObjectName("dialogYes");
-    connect(dialogYes,&QPushButton::clicked,this,&Page1::makeStart);
+    connect(dialogYes,&QPushButton::clicked,this,&Page1::onDialogYesClick);
     connect(dialogYes,&QPushButton::clicked,this,[=]{styleDialog->showOrHide();});
     QPushButton *dialogNo=new QPushButton;
     dialogNo->setFixedSize(64,30);
@@ -125,7 +121,7 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     dialogWarnningLable2->setText(tr("一个程序正试图执行一个需要特权的动作。要求授权以执行该动作。"));
     QLabel *dialogKeyLable=new QLabel;
     dialogKeyLable->setText(tr("输入密码:"));
-    QLineEdit *dialogKey=new QLineEdit;
+    dialogKey=new QLineEdit;
     dialogKey->setEchoMode(QLineEdit::Password);
     dialogKey->setFixedSize(296,32);
 
@@ -237,6 +233,7 @@ void Page1::allClose()
 
 void Page1::creatStartSlots()
 {
+//    qDebug()<<urlIso->text();
     styleDialog->showOrHide();
 }
 
@@ -266,3 +263,11 @@ bool Page1::mouseIsLeave()
     else
         return false;
 }
+
+void Page1::onDialogYesClick()
+{
+    qDebug()<<dialogKey->text()<<"  "<<urlIso->text()<<"  "<<comboUdisk->getDiskPath();
+    emit makeStart(dialogKey->text(),urlIso->text(),comboUdisk->getDiskPath());
+}
+
+
