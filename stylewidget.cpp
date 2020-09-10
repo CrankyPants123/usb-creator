@@ -160,12 +160,33 @@ void StyleWidget::showOrHide()
     }
 }
 
-void StyleWidget::mousePressEvent(QMouseEvent *event)//鼠标拖动事件
+void StyleWidget::mousePressEvent(QMouseEvent *ev)//鼠标拖动事件
 {
-    event->pos();
+//    不是左键按下就丢弃信号
+    if(ev->button() == Qt::LeftButton)
+    {
+        m_last = ev->globalPos();
+        m_isLeftButtonPressed = true;
+//        qDebug()<<"Left button of the Mouse having a Press Event: m_last_x:"<<m_last.x()<<"  m_last_y:"<<m_last.y();
+        return ;
+    }
+    ev->ignore();
 }
 
-void StyleWidget::mouseMoveEvent(QMouseEvent *event)
+void StyleWidget::mouseMoveEvent(QMouseEvent *ev)
 {
-    swshadow->move(0,0);
+    static int  a =0;
+    qDebug()<<"move event"<<a++;
+    if (m_isLeftButtonPressed)
+    {
+
+        int dx = ev->globalX() - m_last.x();
+        int dy = ev->globalY() - m_last.y();
+        m_last = ev->globalPos();
+        qDebug()<<"last x："<<m_last.x()<<"last y:"<<m_last.y();
+        qDebug()<<"move x:"<<x()+dx<<"  y:"<<y()+dy;
+        swshadow->move(swshadow->x()+dx,swshadow->y()+dy);
+
+    }
+    ev->ignore();
 }

@@ -1,6 +1,8 @@
 #ifndef STYLEWIDGET_H
 #define STYLEWIDGET_H
 
+#define VALUE_DIS 2000
+
 #include "stylewidgetshadow.h"
 
 //控件
@@ -15,13 +17,12 @@
 #include <QFontDatabase>
 //鼠标拖动事件
 #include <QMouseEvent>
-
+#include <QPoint>
 class StyleWidget : public QWidget
 {
     Q_OBJECT
 signals:
     void allClose();
-
 public:
     StyleWidget(StyleWidgetAttribute swa, QString dialogTitleText,bool isDialog=false);
     ~StyleWidget();
@@ -29,9 +30,9 @@ public:
     void showOrHide();//切换显示和隐藏状态
 
 private:
-    void mousePressEvent(QMouseEvent *event);//鼠标拖动事件
-    void mouseMoveEvent(QMouseEvent *event);//鼠标拖动事件
-    void paintEvent(QPaintEvent *event);//重绘窗口
+    virtual void mousePressEvent(QMouseEvent *ev);//鼠标拖动事件
+    virtual void mouseMoveEvent(QMouseEvent *ev);//鼠标拖动事件
+    virtual void paintEvent(QPaintEvent *ev);//重绘窗口
     void WidgetStyleClose();//点击关闭事件
     void myStyle(StyleWidgetAttribute swa);//设定样式
     StyleWidgetShadow *swshadow = nullptr;//阴影
@@ -42,6 +43,8 @@ private:
     QPushButton *widgetMin = nullptr;//最小化窗口
     bool m_isDialog =false;//如果是窗口
     bool paintOnce=false;//只绘制一次
+    bool m_isLeftButtonPressed = false;
+    QPoint m_last;
 };
 
 #endif // STYLEWIDGET_H
