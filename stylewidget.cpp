@@ -160,12 +160,25 @@ void StyleWidget::showOrHide()
     }
 }
 
-void StyleWidget::mousePressEvent(QMouseEvent *event)//鼠标拖动事件
+void StyleWidget::mousePressEvent(QMouseEvent *ev)//鼠标拖动事件
 {
-    event->pos();
+    if(ev->button() == Qt::LeftButton){
+        m_last = ev->globalPos();
+        m_isLeftButtonPressed = true;
+        return;
+    }
+    ev->ignore();
 }
 
-void StyleWidget::mouseMoveEvent(QMouseEvent *event)
+void StyleWidget::mouseMoveEvent(QMouseEvent *ev)
 {
-    swshadow->move(0,0);
+    if(m_isLeftButtonPressed)
+    {
+        int dx = ev->globalX() - m_last.x();
+        int dy = ev->globalY() - m_last.y();
+        m_last = ev->globalPos();
+//        qDebug()<<"move";
+        swshadow->move(swshadow->x()+dx,swshadow->y()+dy);
+    }
+    ev->ignore();
 }

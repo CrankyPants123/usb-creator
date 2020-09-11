@@ -42,6 +42,8 @@ private:
     QPushButton *widgetMin = nullptr;//最小化窗口
     bool m_isDialog =false;//如果是窗口
     bool paintOnce=false;//只绘制一次
+    bool m_isLeftButtonPressed = false;
+    QPoint m_last;
 };
 
 #endif // STYLEWIDGET_H
