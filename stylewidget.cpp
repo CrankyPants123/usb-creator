@@ -160,12 +160,3 @@ void StyleWidget::showOrHide()
     }
 }
 
-void StyleWidget::mousePressEvent(QMouseEvent *event)//鼠标拖动事件
-{
-    event->pos();
-}
-
-void StyleWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    swshadow->move(0,0);
-}
