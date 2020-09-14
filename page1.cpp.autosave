@@ -107,7 +107,6 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     page_swa.setH(264);
     styleDialog = new StyleWidget(page_swa,tr("授权"),1);
     styleDialog->showOrHide();
-
     QPushButton *dialogYes=new QPushButton;
     dialogYes->setFixedSize(64,30);
     dialogYes->setText(tr("授权"));
@@ -269,7 +268,6 @@ bool Page1::mouseIsLeave()
 
 void Page1::onDialogYesClick()
 {
-//    qDebug()<<"make start signal emited";
     emit makeStart(dialogKey->text(),urlIso->text(),comboUdisk->getDiskPath());
 }
 
@@ -290,12 +288,9 @@ void Page1::ifStartBtnChange()
 void Page1::dealWrongPasswd()
 {
     creatStartSlots();
-    qDebug()<<"Wrong passwd";
 }
 
-void Page1::doSomethig()
+void Page1::closeEvent(QCloseEvent *event)
 {
-    qDebug()<<"doSomethig";
-    ifStartBtnChange();
-    //dialogInitControlQss(swa);
+    
 }

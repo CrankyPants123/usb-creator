@@ -23,6 +23,8 @@ class StyleWidget : public QWidget
     Q_OBJECT
 signals:
     void allClose();
+    void doSomethig();
+
 public:
     StyleWidget(StyleWidgetAttribute swa, QString dialogTitleText,bool isDialog=false);
     ~StyleWidget();

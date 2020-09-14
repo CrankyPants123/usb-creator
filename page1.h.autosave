@@ -25,6 +25,7 @@
 #include <QFontDatabase>
 //硬盘信息
 #include <QStorageInfo>
+#include <QCloseEvent>
 
 class Page1 : public QWidget
 {
@@ -37,11 +38,11 @@ signals:
     void makeStart(QString key,QString sourcePath,QString targetPath);
 
 public slots:
-    void doSomethig();
     void allClose();
     void onDialogYesClick();
     void dealWrongPasswd();
 private:
+    void closeEvent(QCloseEvent *event);//重写的窗口关闭事件
     bool event(QEvent *event);
     void creatStartSlots();//开始制作
     void paintEvent(QPaintEvent *event);//重绘窗口

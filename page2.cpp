@@ -91,9 +91,11 @@ void Page2::startMaking(QString key,QString sourcePath,QString targetPath)
     command_dd->waitForStarted();
 //    正式版本中使用的ddshell
 //    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
-//    QString ddshell = -"echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+//    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
 //    QString ddshell = "echo "p][p12" | sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
-    QString ddshell = "echo " + key.toLocal8Bit() + "|sudo -S dd if=/dev/zero of=/home/andrew/test.iso bs=1M count=2000 status=progress";
+//    测试使用
+//    QString ddshell = "echo " + key.toLocal8Bit() + "|sudo -S dd if=/dev/zero of=/home/andrew/test.iso bs=1M count=2000 status=progress";
+    QString ddshell = "echo p][p12|sudo -S dd if=/dev/zero of=/home/andrew/test.iso bs=1M count=2000 status=progress";
     qDebug()<<"ddshell is: "<<ddshell;
     command_dd->write(ddshell.toLocal8Bit() + '\n');
 }
@@ -124,13 +126,11 @@ void Page2::readBashStandardErrorInfo()
          if(bytes2.count() == 2 && !isInPage2)
          {
             emit swToPage2();
-//            delete timer; //出现任务进度时销毁计时器
             isInPage2 = true;
          }
          if(bytes2.count() == 1 || !ok){
              finishEvent();
          }
-
     }
 }
 void Page2::finishEvent()

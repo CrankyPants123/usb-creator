@@ -15,6 +15,7 @@ StyleWidget::~StyleWidget()
 
 void StyleWidget::WidgetStyleClose()
 {
+    //emit doSomethig();
     emit allClose();
     swshadow->close();
 }

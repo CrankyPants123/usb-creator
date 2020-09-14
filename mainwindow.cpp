@@ -19,6 +19,7 @@ void MainWindow::myStyle()
     StyleWidget *styleWidget=new StyleWidget(swa,tr("麒麟U盘启动器"));
     timer = new QTimer(this);
     page1 = new Page1(swa);
+    //connect(styleWidget,&StyleWidget::allClose,page1,&Page1::doSomethig);
     connect(styleWidget,&StyleWidget::allClose,page1,&Page1::allClose);
     connect(page1,&Page1::makeStart,this,&MainWindow::passwdCheck);
     connect(this,&MainWindow::dealWrongPasswd,page1,&Page1::dealWrongPasswd);
@@ -92,6 +93,7 @@ void MainWindow::makeFinish()
 void MainWindow::returnMain()
 {
     stackedWidget->setCurrentIndex(changePage());
+    page1->ifStartBtnChange();
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
     pointLable3->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
 }
@@ -101,6 +103,7 @@ void MainWindow::passwdCheck()
     QTimer::singleShot(3000,[=](){
         if(!isInPage2)
         {
+//            qDebug()<<"passwd wrong signal emited";
             emit dealWrongPasswd();
         }
     });
