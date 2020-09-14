@@ -40,12 +40,15 @@ void Page1::initControlQss()
     findIso->setFixedSize(56,30);
     connect(findIso,&QPushButton::clicked,this,[=]{
         urlIso->setText( QFileDialog::getOpenFileName(0,tr("选择镜像文件"),QDir::homePath(),"ISO(*.iso)"));
-    });
+        });
+    connect(urlIso,&QLineEdit::textChanged,this,&Page1::ifStartBtnChange);
     creatStart=new QPushButton(this);
     creatStart->setFixedSize(200,30);
     creatStart->setText(tr("开始制作"));
+    creatStart->setEnabled(false);
+    creatStart->setStyleSheet("background-color:rgba(236,236,236,1);border-radius:15px;");
     connect(creatStart,&QPushButton::clicked,this,&Page1::creatStartSlots);
-
+//    connect(createStart,)
 
     QHBoxLayout *hl1=new QHBoxLayout;
     hl1->setMargin(0);
@@ -230,13 +233,11 @@ void Page1::allClose()
 {
     styleDialog->allClose();
 }
-
 void Page1::creatStartSlots()
 {
-//    qDebug()<<urlIso->text();
+    dialogKey->clear();
     styleDialog->showOrHide();
 }
-
 bool Page1::event(QEvent *event)
 {
     if(comboUdisk->swshadow == nullptr)return QWidget::event(event);
@@ -266,8 +267,26 @@ bool Page1::mouseIsLeave()
 
 void Page1::onDialogYesClick()
 {
-    qDebug()<<dialogKey->text()<<"  "<<urlIso->text()<<"  "<<comboUdisk->getDiskPath();
     emit makeStart(dialogKey->text(),urlIso->text(),comboUdisk->getDiskPath());
 }
 
+void Page1::ifStartBtnChange()
+{
+    if(comboUdisk->getDiskPath() != NOUDISK && !urlIso->text().isEmpty())
+    {
+        creatStart->setEnabled(true);
+        creatStart->setStyleSheet("background-color:rgba(100,105,241,1);border-radius:15px;");//开始制作按钮是否可以点击的逻辑判断以及按钮样式修改部分
+    }
+    else
+    {
+        creatStart->setEnabled(false);
+        creatStart->setStyleSheet("background-color:rgba(236,236,236,1);border-radius:15px;");
+    }
+}
+
+void Page1::dealWrongPasswd()
+{
+    creatStartSlots();
+    qDebug()<<"Wrong passwd";
+}
 

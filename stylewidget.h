@@ -30,8 +30,6 @@ public:
     void showOrHide();//切换显示和隐藏状态
 
 private:
-    virtual void mousePressEvent(QMouseEvent *ev);//鼠标拖动事件
-    virtual void mouseMoveEvent(QMouseEvent *ev);//鼠标拖动事件
     virtual void paintEvent(QPaintEvent *ev);//重绘窗口
     void WidgetStyleClose();//点击关闭事件
     void myStyle(StyleWidgetAttribute swa);//设定样式

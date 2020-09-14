@@ -83,19 +83,19 @@ void Page2::playFinishGif()
 void Page2::startMaking(QString key,QString sourcePath,QString targetPath)
 {
     playLoadingGif();
-    qDebug()<<"source file size:"<<getFileSize(sourcePath);
+//    qDebug()<<"source file size:"<<getFileSize(sourcePath);
     sourceFileSize = getFileSize(sourcePath);
     command_dd = new QProcess();
     connect(command_dd,&QProcess::readyReadStandardError,this,&Page2::readBashStandardErrorInfo);
     command_dd->start("bash");
     command_dd->waitForStarted();
-    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
-//    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
-//    QString ddshell = "echo p][p12 | sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+//    正式版本中使用的ddshell
+//    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
+//    QString ddshell = -"echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+//    QString ddshell = "echo "p][p12" | sudo -S dd if="+sourcePath.toLocal8Bit()+" of=/home/andrew/test2.iso status=progress";
+    QString ddshell = "echo " + key.toLocal8Bit() + "|sudo -S dd if=/dev/zero of=/home/andrew/test.iso bs=1M count=2000 status=progress";
     qDebug()<<"ddshell is: "<<ddshell;
     command_dd->write(ddshell.toLocal8Bit() + '\n');
-
-    //playFinishGif();
 }
 qint64 Page2::getFileSize(QString filePath)
 {
@@ -109,7 +109,6 @@ void Page2::readBashStandardErrorInfo()
         QString str = cmdout;
         str = str.replace(" ","");
         qDebug()<<"Str value:"<<str;
-//        qDebug()<<str.contains("[sudo]");
         if(str =="" || str.contains("[sudo]"))
         {
             return;
@@ -121,8 +120,13 @@ void Page2::readBashStandardErrorInfo()
          bool ok = false;
          qulonglong progress_num = size_progress.toDouble(&ok)/1048576;
          int mission_percent = progress_num*100/sourceFileSize;
-//         qDebug()<<"pro:"<<progress_num<<"progress："<<size_progress.toDouble();
          lableNum->setText(QString::number(mission_percent)+ "%");
+         if(bytes2.count() == 2 && !isInPage2)
+         {
+            emit swToPage2();
+//            delete timer; //出现任务进度时销毁计时器
+            isInPage2 = true;
+         }
          if(bytes2.count() == 1 || !ok){
              finishEvent();
          }
@@ -131,7 +135,6 @@ void Page2::readBashStandardErrorInfo()
 }
 void Page2::finishEvent()
 {
-//    qDebug()<<"finish";
     playFinishGif();
     emit makeFinish();
 }

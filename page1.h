@@ -38,7 +38,7 @@ signals:
 public slots:
     void allClose();
     void onDialogYesClick();
-
+    void dealWrongPasswd();
 private:
     bool event(QEvent *event);
     void creatStartSlots();//开始制作
@@ -61,9 +61,11 @@ private:
     QLineEdit *dialogKey= nullptr;//
 
     bool paintOnce=false;//只绘制一次
+    void ifStartBtnChange();//开始制作按钮是否可以点击
     StyleWidgetAttribute swa;//属性
 
     bool leaveThis=true;
+
 };
 
 #endif // PAGE1_H

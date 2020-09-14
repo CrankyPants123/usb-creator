@@ -17,13 +17,14 @@ void MainWindow::myStyle()
     //int w, int h, bool allRadius, int radius,int shadow,double shadowAlpha, int titleHeight, int itemHeight, bool middle
     StyleWidgetAttribute swa(WINDOWW,WINDOWH,0,WIDGETRADIUS,SHADOW,SHADOWALPHA,TITLEH);
     StyleWidget *styleWidget=new StyleWidget(swa,tr("麒麟U盘启动器"));
+    timer = new QTimer(this);
     page1 = new Page1(swa);
     connect(styleWidget,&StyleWidget::allClose,page1,&Page1::allClose);
-    connect(page1,&Page1::makeStart,this,&MainWindow::makeStart);
-
+    connect(page1,&Page1::makeStart,this,&MainWindow::passwdCheck);
+    connect(this,&MainWindow::dealWrongPasswd,page1,&Page1::dealWrongPasswd);
     page2 = new Page2;
     connect(page1,&Page1::makeStart,page2,&Page2::startMaking);
-
+    connect(page2,&Page2::swToPage2,this,&MainWindow::makeStart);
     connect(page2,&Page2::makeFinish,this,&MainWindow::makeFinish);
     connect(page2,&Page2::returnMain,this,&MainWindow::returnMain);
     QHBoxLayout *hblayout=new QHBoxLayout(styleWidget->body);
@@ -65,11 +66,11 @@ void MainWindow::myStyle()
 
 void MainWindow::makeStart()
 {
+    isInPage2 = true;
     stackedWidget->setCurrentIndex(changePage());
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
     pointLable2->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
-    qDebug()<<"start";
-    emit setMakeStart();
+//    emit setMakeStart();
 }
 
 int MainWindow::changePage()
@@ -83,7 +84,6 @@ int MainWindow::changePage()
 
 void MainWindow::makeFinish()
 {
-    qDebug()<<"finish";
 //    stackedWidget->setCurrentIndex(changePage());
     pointLable3->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
     pointLable2->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
@@ -91,9 +91,17 @@ void MainWindow::makeFinish()
 
 void MainWindow::returnMain()
 {
-    qDebug()<<"return main";
     stackedWidget->setCurrentIndex(changePage());
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
     pointLable3->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
-    qDebug()<<"back to mainwindow";
+}
+
+void MainWindow::passwdCheck()
+{
+    QTimer::singleShot(3000,[=](){
+        if(!isInPage2)
+        {
+            emit dealWrongPasswd();
+        }
+    });
 }

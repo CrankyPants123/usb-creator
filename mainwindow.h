@@ -13,6 +13,7 @@
 #include "page1.h"
 #include "page2.h"
 #include <QWidget>
+#include <QTimer>
 //滑动效果
 #include <QStackedWidget>
 class MainWindow : public QWidget
@@ -25,12 +26,12 @@ public:
 
 signals:
     void setMakeStart();
-
+    void dealWrongPasswd();
 public slots:
-    void makeStart();
+    void makeStart(); //点击授权按钮后由页面1跳转到页面2
     void makeFinish();
     void returnMain();
-
+    void passwdCheck();
 private:
     int changePage();
     void myStyle();//设定样式
@@ -41,5 +42,7 @@ private:
     QLabel *pointLable3 = nullptr;
     Page1 *page1=nullptr;
     Page2 *page2=nullptr;
+    QTimer *timer;
+    bool isInPage2  = false; //程序是否处在页面2
 };
 #endif // MAINWINDOW_H

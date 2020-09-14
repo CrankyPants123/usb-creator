@@ -19,6 +19,7 @@ public:
 signals:
     void makeFinish();
     void returnMain();
+    void swToPage2();//
 
 public slots:
     void startMaking(QString key,QString sourcePath,QString targetPath); //接收page1传来的制作参数
@@ -36,6 +37,8 @@ private:
     QProcess *command_dd;
     void readBashStandardErrorInfo();
     qint64 sourceFileSize = 0;
+    bool isInPage2 = false;
+    QTimer *timer;
 };
 
 #endif // PAGE2_H
