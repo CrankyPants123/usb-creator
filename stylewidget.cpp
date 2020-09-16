@@ -125,6 +125,11 @@ void StyleWidget::myStyle(StyleWidgetAttribute swa)
         icon->hide();
         title->setStyleSheet("StyleWidget #title{background-color:rgba(255,255,255,1);border-top-left-radius:"
                              +QString::number(swa.radius)+"px;border-top-right-radius:"+QString::number(swa.radius)+"px;}");
+        qDebug()<<"hide maxmium btn & minium btn";
+        widgetClose->hide();//初版在dialog中先暂时隐藏最小化和最大化按钮
+        widgetMin->hide();
+
+
     }
     else
     {

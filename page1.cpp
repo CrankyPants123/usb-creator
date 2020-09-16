@@ -115,6 +115,8 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     connect(dialogYes,&QPushButton::clicked,this,&Page1::onDialogYesClick);
     connect(dialogYes,&QPushButton::clicked,this,[=]{styleDialog->showOrHide();});
     QPushButton *dialogNo=new QPushButton;
+    connect(dialogNo,&QPushButton::clicked,this,&Page1::dealDialogCancel);
+//    connect(dialogNo,&QPushButton::clicked,this,[=]{styleDialog->showOrHide();});
     dialogNo->setFixedSize(64,30);
     dialogNo->setText(tr("取消"));
     dialogNo->setObjectName("dialogNo");
@@ -125,6 +127,7 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     QLabel *dialogKeyLable=new QLabel;
     dialogKeyLable->setText(tr("输入密码:"));
     dialogKey=new QLineEdit;
+    dialogKey->setPlaceholderText(tr("请输入密码"));
     dialogKey->setEchoMode(QLineEdit::Password);
     dialogKey->setFixedSize(296,32);
 
@@ -269,6 +272,7 @@ bool Page1::mouseIsLeave()
 
 void Page1::onDialogYesClick()
 {
+    dialogKey->setPlaceholderText(tr("请输入密码"));
 //    qDebug()<<"make start signal emited";
     emit makeStart(dialogKey->text(),urlIso->text(),comboUdisk->getDiskPath());
 }
@@ -290,6 +294,7 @@ void Page1::ifStartBtnChange()
 void Page1::dealWrongPasswd()
 {
     creatStartSlots();
+    dialogKey->setPlaceholderText(tr("密码错误，请重新输入。"));
     qDebug()<<"Wrong passwd";
 }
 
@@ -298,4 +303,11 @@ void Page1::doSomethig()
     qDebug()<<"doSomethig";
     ifStartBtnChange();
     //dialogInitControlQss(swa);
+}
+
+void Page1::dealDialogCancel()
+{
+    styleDialog->showOrHide();
+    ifStartBtnChange();
+//    emit changePage1Btn();
 }

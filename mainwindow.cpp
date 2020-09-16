@@ -68,6 +68,7 @@ void MainWindow::myStyle()
 void MainWindow::makeStart()
 {
     isInPage2 = true;
+    qDebug()<<"make start isInPaage2 become true";
     stackedWidget->setCurrentIndex(changePage());
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(151, 151, 151, 1)");
     pointLable2->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
@@ -92,6 +93,8 @@ void MainWindow::makeFinish()
 
 void MainWindow::returnMain()
 {
+    isInPage2 = false;
+    qDebug()<<"return main isInpage2 become false";
     stackedWidget->setCurrentIndex(changePage());
     page1->ifStartBtnChange();
     pointLable1->setStyleSheet("border-radius:4px;background:rgba(100, 105, 241, 1)");
@@ -100,6 +103,7 @@ void MainWindow::returnMain()
 
 void MainWindow::passwdCheck()
 {
+    qDebug()<<"isInpage2"<<isInPage2;
     QTimer::singleShot(3000,[=](){
         if(!isInPage2)
         {

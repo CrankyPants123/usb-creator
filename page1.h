@@ -35,7 +35,7 @@ public:
 //
 signals:
     void makeStart(QString key,QString sourcePath,QString targetPath);
-
+//    void changePage1Btn();
 public slots:
     void doSomethig();
     void allClose();
@@ -49,6 +49,7 @@ private:
     void getStorageInfo();//获取磁盘信息
     void dialogInitControlQss(StyleWidgetAttribute page_swa);//初始化对话框控件及其样式
     bool mouseIsLeave();//鼠标是否离开
+    void dealDialogCancel();
 
     //QComboBox *comboUdisk = nullptr;//U盘列表
     StyleComboBox *comboUdisk = nullptr;//U盘列表
