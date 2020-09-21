@@ -33,11 +33,22 @@ HEADERS += \
     src/stylewidget.h \
     src/stylewidgetattribute.h \
     src/stylewidgetshadow.h
-
-target.path = /usr/bin
+# bin file output dir
+TARGET = kylin-usb-creator
 target.source += $$TARGET
+target.path = /usr/bin
+
+icons.files += data/kylin-usb-creator.png
+icons.path = /usr/share/pixmaps/
+
 desktop.path = /usr/share/applications
 desktop.files = kylin-usb-creator.desktop
+
+INSTALLS += \
+    target \
+    desktop \
+    icons
+
 
 TRANSLATIONS += \
     kylin-usb-creator_zh_CN.ts
@@ -51,5 +62,3 @@ RESOURCES += \
     data.qrc
 
 QMAKE_CXXFLAGS +=  -Wno-unused-parameter
-
-#RC_ICONS = logo.ico
