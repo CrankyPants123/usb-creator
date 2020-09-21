@@ -1,0 +1,5 @@
+kylin-usb-creator (1.0.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Andrew Pit <sxshodr@163.com>  Mon, 21 Sep 2020 16:32:14 +0800
