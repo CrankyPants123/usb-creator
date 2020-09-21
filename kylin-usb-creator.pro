@@ -16,23 +16,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    page1.cpp \
-    page2.cpp \
-    stylecombobox.cpp \
-    stylewidget.cpp \
-    stylewidgetattribute.cpp \
-    stylewidgetshadow.cpp
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/page1.cpp \
+    src/page2.cpp \
+    src/stylecombobox.cpp \
+    src/stylewidget.cpp \
+    src/stylewidgetattribute.cpp \
+    src/stylewidgetshadow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    page1.h \
-    page2.h \
-    stylecombobox.h \
-    stylewidget.h \
-    stylewidgetattribute.h \
-    stylewidgetshadow.h
+    src/mainwindow.h \
+    src/page1.h \
+    src/page2.h \
+    src/stylecombobox.h \
+    src/stylewidget.h \
+    src/stylewidgetattribute.h \
+    src/stylewidgetshadow.h
+
+target.path = /usr/bin
+target.source += $$TARGET
+desktop.path = /usr/share/applications
+desktop.files = kylin-usb-creator.desktop
 
 TRANSLATIONS += \
     kylin-usb-creator_zh_CN.ts
@@ -46,3 +51,5 @@ RESOURCES += \
     data.qrc
 
 QMAKE_CXXFLAGS +=  -Wno-unused-parameter
+
+#RC_ICONS = logo.ico
