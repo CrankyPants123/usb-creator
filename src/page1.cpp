@@ -116,7 +116,6 @@ void Page1::dialogInitControlQss(StyleWidgetAttribute page_swa)
     connect(dialogYes,&QPushButton::clicked,this,[=]{styleDialog->showOrHide();});
     QPushButton *dialogNo=new QPushButton;
     connect(dialogNo,&QPushButton::clicked,this,&Page1::dealDialogCancel);
-//    connect(dialogNo,&QPushButton::clicked,this,[=]{styleDialog->showOrHide();});
     dialogNo->setFixedSize(64,30);
     dialogNo->setText(tr("取消"));
     dialogNo->setObjectName("dialogNo");
@@ -222,8 +221,12 @@ void Page1::getStorageInfo()//获取磁盘信息
 
         float diskSize=disk.bytesTotal();
         diskSize=diskSize/1048576/1024;
-        QString info=displayName+"  ( "+disk.device()+" ) "+QString::number(diskSize,'f',1)+"GB";
-        comboUdisk->addItem(info,disk.device());
+
+        QString diskUrl=disk.device();
+        diskUrl=diskUrl.mid(0,8);
+
+        QString info=displayName+"  ( "+diskUrl+" ) "+QString::number(diskSize,'f',1)+"GB";
+        comboUdisk->addItem(info,diskUrl);
     }
     if(0==comboUdisk->listWidget->count())
     {
@@ -273,7 +276,6 @@ bool Page1::mouseIsLeave()
 void Page1::onDialogYesClick()
 {
     dialogKey->setPlaceholderText(tr("请输入密码"));
-//    qDebug()<<"make start signal emited";
     emit makeStart(dialogKey->text(),urlIso->text(),comboUdisk->getDiskPath());
 }
 
@@ -295,19 +297,15 @@ void Page1::dealWrongPasswd()
 {
     creatStartSlots();
     dialogKey->setPlaceholderText(tr("密码错误，请重新输入。"));
-    qDebug()<<"Wrong passwd";
 }
 
 void Page1::doSomethig()
 {
-    qDebug()<<"doSomethig";
     ifStartBtnChange();
-    //dialogInitControlQss(swa);
 }
 
 void Page1::dealDialogCancel()
 {
     styleDialog->showOrHide();
     ifStartBtnChange();
-//    emit changePage1Btn();
 }

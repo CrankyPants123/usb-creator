@@ -62,7 +62,8 @@ void StyleComboBox::on_pushButton_click()
     listWidget->show();
 }
 
-void StyleComboBox::addItem(QString lable, QByteArray data)
+//void StyleComboBox::addItem(QString lable, QByteArray data)
+void StyleComboBox::addItem(QString lable, QString data)
 {
     QListWidgetItem *item=new QListWidgetItem;
     item->setText(lable);

@@ -18,7 +18,7 @@ public:
     explicit StyleComboBox(StyleWidgetAttribute scb_swa);
     void deleteShadow();
     QListWidget *listWidget = nullptr;//列表部分
-    void addItem(QString lable, QByteArray data);//添加到列表
+    void addItem(QString lable, QString data);//添加到列表
     StyleWidgetShadow *swshadow = nullptr;//列表阴影
 
 

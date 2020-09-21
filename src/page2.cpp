@@ -90,7 +90,9 @@ void Page2::startMaking(QString key,QString sourcePath,QString targetPath)
     command_dd->start("bash");
     command_dd->waitForStarted();
 //    正式版本中使用的ddshell
-    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
+//    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if="+sourcePath.toLocal8Bit()+" of="+targetPath.toLocal8Bit()+" status=progress";
+//    测试用shell
+    QString ddshell = "echo "+key.toLocal8Bit()+"| sudo -S dd if=/dev/zero of=/home/andrew/test.iso bs=1M count=2000 status=progress";
     qDebug()<<"ddshell is: "<<ddshell;
     command_dd->write(ddshell.toLocal8Bit() + '\n');
 }
